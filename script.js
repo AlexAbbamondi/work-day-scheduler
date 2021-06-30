@@ -1,16 +1,22 @@
 $(document).ready(function () {
   //Selects the saveBtn --- adds click event to store the value of what is inside the textarea
+  //Set the localstorage key value pair ---sets empty array --pushes values to array -- gets items value and sends it to description
   var saveBtn = $(".saveBtn");
   saveBtn.on("click", function () {
-    var value = $(this).siblings(".description").val();
+    var value = $(this).siblings(".description").val().trim();
 
-    //////////ADD LOCALSTORAGE HERE//////////
+    localStorage.setItem("key", JSON.stringify(value));
+    var desc = [];
+    desc.push(value);
+    $(".description").value = JSON.parse(localStorage.getItem("key")) || [];
   });
 
   //Selects the currentDay p tag and sets the date in its place
-  var currentDay = $("#currentDay");
-  var currentDate = moment().format("dddd, MMMM Do");
-  currentDay.text(currentDate);
+  setInterval(() => {
+    var currentDay = $("#currentDay");
+    const currentTime = moment().format("MMM Do, YYYY hh:mm:ss");
+    currentDay.text(currentTime);
+  }, 1000);
 
   //Getting current date and taking just the hours from it
   var now = new Date(Date.now());
@@ -31,3 +37,5 @@ $(document).ready(function () {
     }
   }
 });
+
+
